@@ -1,0 +1,82 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Projects</h2>
+        <button class="btn btn-primary" (click)="showAddForm()">
+          <i class="fas fa-plus"></i> Add Project
+        </button>
+      </div>
+
+      <!-- Project Form -->
+      <div *ngIf="showForm" class="card mb-3">
+        <div class="card-header">
+          <h5>{{ editingProject ? 'Edit Project' : 'Add New Project' }}</h5>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="saveProject()">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="name" 
+                     [(ngModel)]="newProject.name" name="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" rows="3"
+                        [(ngModel)]="newProject.description" name="description"></textarea>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="startDate" class="form-label">Start Date</label>
+                  <input type="date" class="form-control" id="startDate"
+                         [(ngModel)]="newProject.startDate" name="startDate" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="endDate" class="form-label">End Date</label>
+                  <input type="date" class="form-control" id="endDate"
+                         [(ngModel)]="newProject.endDate" name="endDate" required>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-success">Save</button>
+              <button type="button" class="btn btn-secondary" (click)="hideForm()">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Projects List -->
+      <div class="list-group">
+        <div *ngFor="let project of projects" 
+             class="list-group-item list-group-item-action"
+             [class.active]="selectedProject?.id === project.id"
+             (click)="selectProject(project)">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ project.name }}</h5>
+            <div>
+              <button class="btn btn-sm btn-outline-primary me-1" 
+                      (click)="editProject(project); $event.stopPropagation()">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" 
+                      (click)="deleteProject(project.id!); $event.stopPropagation()">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          <p class="mb-1">{{ project.description }}</p>
+          <small>{{ project.startDate }} - {{ project.endDate }}</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task List -->
+    <div class="col-md-6">
+      <app-task-list *ngIf="selectedProject" [projectId]="selectedProject.id!"></app-task-list>
+    </div>
+  </div>
+</div>
