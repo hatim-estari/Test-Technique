@@ -1,6 +1,6 @@
 # Dossier de compilation Maven/Gradle
-target/
-build/
+backend/target/
+backend/build/
 
 # Maven wrapper jar (pas besoin de versionner)
 .mvn/wrapper/maven-wrapper.jar
